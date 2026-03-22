@@ -42,7 +42,19 @@ async def cmd_status(update: Update, context) -> None:
     if not is_allowed(update):
         return
     result = subprocess.run(["tmux", "ls"], capture_output=True, text=True)
-    output = result.stdout.strip() or result.stderr.strip() or "No active sessions."
+    if result.returncode != 0 or not result.stdout.strip():
+        # List recent logs to show completed sessions
+        logs = sorted(LOG_DIR.glob("*.log"), key=lambda p: p.stat().st_mtime, reverse=True)[:5]
+        if logs:
+            lines = ["No active sessions. Recent logs:"]
+            for log in logs:
+                size = log.stat().st_size
+                lines.append(f"  {log.stem} ({size} bytes)")
+            output = "\n".join(lines)
+        else:
+            output = "No active or recent sessions."
+    else:
+        output = result.stdout.strip()
     await update.message.reply_text(output)
 
 
