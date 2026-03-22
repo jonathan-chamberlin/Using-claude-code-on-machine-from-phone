@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Telegram bot that dispatches Claude agent tasks via tmux."""
 
+import json
 import os
 import subprocess
 from pathlib import Path
@@ -69,12 +70,22 @@ async def cmd_log(update: Update, context) -> None:
     if not log_file.exists():
         await update.message.reply_text(f"No log found for session: {session}")
         return
-    result = subprocess.run(
-        ["tail", "-50", str(log_file)],
-        capture_output=True, text=True,
-    )
-    text = result.stdout.strip() or "(empty log)"
-    # Telegram messages max 4096 chars
+    # Parse JSON stream log and extract readable text
+    lines = []
+    for raw_line in log_file.read_text().splitlines():
+        try:
+            obj = json.loads(raw_line)
+        except json.JSONDecodeError:
+            continue
+        if obj.get("type") == "assistant":
+            for block in obj.get("message", {}).get("content", []):
+                if block.get("type") == "text" and block.get("text", "").strip():
+                    lines.append(block["text"].strip())
+        elif obj.get("type") == "result":
+            result_text = obj.get("result", "").strip()
+            if result_text and result_text not in lines:
+                lines.append(f"\n--- Result ---\n{result_text}")
+    text = "\n".join(lines) if lines else "(no readable output)"
     if len(text) > 4000:
         text = text[-4000:]
     await update.message.reply_text(text)
