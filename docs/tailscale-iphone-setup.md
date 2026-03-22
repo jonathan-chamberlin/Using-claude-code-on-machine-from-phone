@@ -43,8 +43,8 @@ You need to transfer your private key to your phone. The safest way:
 
 ## 5. Configure the SSH connection
 
-- **Hostname**: 100.83.13.123
-- **Username**: jonathanchamberlin
+- **Hostname**: $TAILSCALE_IP (see .env)
+- **Username**: $MAC_USER (see .env)
 - **Port**: 22
 - **Auth**: The private key you imported
 
@@ -52,7 +52,7 @@ You need to transfer your private key to your phone. The safest way:
 
 In your terminal app, run:
 ```
-ssh jonathanchamberlin@100.83.13.123
+ssh $MAC_USER (see .env)@$TAILSCALE_IP (see .env)
 ```
 
 You should get a shell on your Mac. Then try:

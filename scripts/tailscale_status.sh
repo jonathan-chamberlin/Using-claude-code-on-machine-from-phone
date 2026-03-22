@@ -2,7 +2,8 @@
 set -euo pipefail
 
 TAILSCALE="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-LOG="/Users/jonathanchamberlin/repos/mac-automation/logs/tailscale.log"
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+LOG="$SCRIPT_DIR/logs/tailscale.log"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 mkdir -p "$(dirname "$LOG")"

@@ -2,16 +2,10 @@
 
 ## Connection Details
 
-- **Tailscale IP**: 100.83.13.123
-- **Username**: jonathanchamberlin
+- **Tailscale IP**: see `TAILSCALE_IP` in `.env`
+- **Username**: see `MAC_USER` in `.env`
 - **Auth**: SSH key only (no password)
-- **Connection string**: `ssh jonathanchamberlin@100.83.13.123`
-
-## Public Key
-
-```
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE4LDJbQeB7xGw1eWOtcHcIFFFQj0nOJrW64wBjpHXYQ mac-automation
-```
+- **Connection string**: `ssh $MAC_USER@$TAILSCALE_IP`
 
 ## Setup: Blink Shell (iOS, recommended)
 
@@ -22,8 +16,8 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE4LDJbQeB7xGw1eWOtcHcIFFFQj0nOJrW64wBjpHXYQ
 5. Paste into Blink Shell and save with name "mac"
 6. Go to **Hosts** > **+**
    - Host: `mac`
-   - Hostname: `100.83.13.123`
-   - User: `jonathanchamberlin`
+   - Hostname: (your Tailscale IP from `.env`)
+   - User: (your username from `.env`)
    - Key: select "mac"
    - Port: 22
 7. Save. Connect by typing `ssh mac` in Blink
@@ -36,8 +30,8 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE4LDJbQeB7xGw1eWOtcHcIFFFQj0nOJrW64wBjpHXYQ
 4. Tap **Paste from clipboard**, give it label "mac"
 5. Go to **Hosts** > **+**
    - Label: `Mac`
-   - Hostname: `100.83.13.123`
-   - Username: `jonathanchamberlin`
+   - Hostname: (your Tailscale IP from `.env`)
+   - Username: (your username from `.env`)
    - Key: select "mac"
 6. Save. Tap the host to connect.
 

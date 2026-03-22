@@ -18,7 +18,7 @@
 
 1. Connect from your phone terminal app:
    ```
-   ssh jonathanchamberlin@100.83.13.123
+   ssh $MAC_USER@$TAILSCALE_IP (see .env)
    ```
 
 2. List what's running:
